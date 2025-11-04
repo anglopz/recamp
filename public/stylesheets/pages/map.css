@@ -1,0 +1,45 @@
+/* public/stylesheets/pages/map.css */
+.mapboxgl-popup {
+    max-width: 300px !important;
+}
+
+.mapboxgl-popup-content {
+    padding: 0 !important;
+    border-radius: 12px !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15) !important;
+    overflow: hidden;
+    border: 1px solid #e9ecef !important;
+    background: white !important;
+}
+
+.mapboxgl-popup-close-button {
+    padding: 6px 10px !important;
+    font-size: 16px !important;
+    color: #6c757d !important;
+    background: rgba(255,255,255,0.9) !important;
+    border-radius: 0 12px 0 6px !important;
+    font-weight: bold;
+}
+
+.mapboxgl-popup-close-button:hover {
+    background-color: #f8f9fa !important;
+    color: #495057 !important;
+}
+
+.mapboxgl-popup-tip {
+    border-top-color: rgba(0,0,0,0.1) !important;
+}
+
+/* Estilos para el contenedor del mapa */
+#map {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+}
+
+/* Mejora los controles del mapa */
+.mapboxgl-ctrl-group {
+    border-radius: 8px !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;
+}

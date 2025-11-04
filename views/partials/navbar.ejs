@@ -1,0 +1,104 @@
+<style>
+    /* Estilos para el navbar */
+    .navbar-brand .gradient-text {
+        background: linear-gradient(135deg, #20c997, #198754);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .nav-link {
+        transition: all 0.3s ease;
+        border-radius: 6px;
+        margin: 0 2px;
+    }
+    
+    .nav-link:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateY(-1px);
+    }
+    
+    .navbar-toggler:focus {
+        box-shadow: none;
+    }
+</style>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow">
+    <div class="container">
+        <!-- Brand con icono -->
+        <a class="navbar-brand fw-bold d-flex align-items-center" href="/">
+            <i class="bi bi-tree-fill text-success me-2"></i>
+            <span class="gradient-text">ReCamp</span>
+        </a>
+        
+        <!-- Toggler para mobile -->
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <!-- Contenido del navbar -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <!-- Navegación principal -->
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center" href="/">
+                        <i class="bi bi-house me-1"></i>Home
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center" href="/campgrounds">
+                        <i class="bi bi-map me-1"></i>Campgrounds
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center" href="/campgrounds/new">
+                        <i class="bi bi-plus-circle me-1"></i>New Campground
+                    </a>
+                </li>
+            </ul>
+            
+            <!-- Navegación de usuario -->
+            <ul class="navbar-nav">
+                <% if(!currentUser) { %>
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center" href="/login">
+                            <i class="bi bi-box-arrow-in-right me-1"></i>Login
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center btn btn-outline-success btn-sm ms-2" href="/register">
+                            <i class="bi bi-person-plus me-1"></i>Sign Up
+                        </a>
+                    </li>
+                <% } else { %>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" 
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-circle me-1"></i>
+                            <%= currentUser.username %>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center" href="/profile">
+                                    <i class="bi bi-person me-2"></i>Profile
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center" href="/my-campgrounds">
+                                    <i class="bi bi-tree me-2"></i>My Campgrounds
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center text-danger" href="/logout">
+                                    <i class="bi bi-box-arrow-right me-2"></i>Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                <% } %>
+            </ul>
+        </div>
+    </div>
+</nav>

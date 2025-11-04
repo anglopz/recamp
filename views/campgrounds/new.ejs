@@ -1,0 +1,277 @@
+<% layout('layout/boilerplate') %>
+
+<style>
+    .create-container {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+        padding: 2rem;
+        margin: 1rem 0;
+    }
+    .form-section {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    .file-upload-area {
+        border: 2px dashed #198754;
+        border-radius: 10px;
+        padding: 2rem;
+        text-align: center;
+        background: #f8fff9;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    .file-upload-area:hover {
+        background: #e8f5e8;
+        border-color: #0d6efd;
+        transform: translateY(-2px);
+    }
+    .upload-icon {
+        font-size: 3rem;
+        color: #198754;
+        margin-bottom: 1rem;
+    }
+    .feature-list {
+        list-style: none;
+        padding: 0;
+    }
+    .feature-list li {
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #e9ecef;
+    }
+    .feature-list li:last-child {
+        border-bottom: none;
+    }
+    .feature-list i {
+        color: #198754;
+        margin-right: 0.5rem;
+    }
+</style>
+
+<div class="create-container">
+    <!-- Header -->
+    <div class="text-center mb-5">
+        <h1 class="display-5 fw-bold text-success">
+            <i class="bi bi-plus-circle-fill"></i> Create New Campground
+        </h1>
+        <p class="lead text-muted">Share your amazing camping spot with the community</p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <form action="/campgrounds" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
+                
+                <!-- Basic Information Section -->
+                <div class="form-section">
+                    <h4 class="mb-4 text-primary">
+                        <i class="bi bi-info-circle"></i> Basic Information
+                    </h4>
+                    
+                    <div class="mb-4">
+                        <label class="form-label fw-bold" for="title">
+                            <i class="bi bi-card-heading"></i> Campground Title
+                        </label>
+                        <input class="form-control form-control-lg" type="text" id="title" name="campground[title]" 
+                            required placeholder="Enter a catchy title for your campground">
+                        <div class="valid-feedback">
+                            <i class="bi bi-check-circle-fill"></i> Great title!
+                        </div>
+                        <div class="form-text">Choose a descriptive name that will attract campers</div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold" for="location">
+                            <i class="bi bi-geo-alt"></i> Location
+                        </label>
+                        <input class="form-control" type="text" id="location" name="campground[location]" 
+                            required placeholder="Where is your campground located?">
+                        <div class="valid-feedback">
+                            <i class="bi bi-check-circle-fill"></i> Perfect location!
+                        </div>
+                        <div class="form-text">Include city, region, or specific area</div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold" for="description">
+                            <i class="bi bi-text-paragraph"></i> Description
+                        </label>
+                        <textarea class="form-control" id="description" name="campground[description]" 
+                            rows="6" required placeholder="Describe what makes your campground special..."></textarea>
+                        <div class="valid-feedback">
+                            <i class="bi bi-check-circle-fill"></i> Engaging description!
+                        </div>
+                        <div class="form-text">Share details about amenities, scenery, and unique features</div>
+                    </div>
+                </div>
+
+                <!-- Pricing Section -->
+                <div class="form-section">
+                    <h4 class="mb-4 text-success">
+                        <i class="bi bi-currency-euro"></i> Pricing & Details
+                    </h4>
+                    
+                    <div class="mb-4">
+                        <label class="form-label fw-bold" for="price">Price per Night</label>
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-text bg-success text-white">
+                                <i class="bi bi-currency-euro"></i>
+                            </span>
+                            <input type="number" class="form-control" id="price" placeholder="0.00" 
+                                step="0.01" min="0" name="campground[price]" required>
+                            <span class="input-group-text">/ night</span>
+                        </div>
+                        <div class="valid-feedback">
+                            <i class="bi bi-check-circle-fill"></i> Fair price!
+                        </div>
+                        <div class="form-text">Set a competitive price for your campground</div>
+                    </div>
+                </div>
+
+                <!-- Images Section -->
+                <div class="form-section">
+                    <h4 class="mb-4 text-info">
+                        <i class="bi bi-images"></i> Campground Images
+                    </h4>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Upload Images</label>
+                        <div class="file-upload-area" onclick="document.getElementById('simpleFile').click()">
+                            <div class="upload-icon">
+                                <i class="bi bi-cloud-arrow-up-fill"></i>
+                            </div>
+                            <h5 class="text-success">Click to Upload Images</h5>
+                            <p class="text-muted mb-3">Drag & drop or click to select multiple images</p>
+                            <span class="badge bg-light text-dark">
+                                <i class="bi bi-info-circle"></i> Recommended: 3-5 high-quality images
+                            </span>
+                        </div>
+                        <input type="file" id="simpleFile" class="d-none" accept="image/*" 
+                            name="images" multiple onchange="updateFileName(this)">
+                        <div id="simpleFileName" class="mt-3 text-center"></div>
+                    </div>
+
+                    <!-- Image Tips -->
+                    <div class="alert alert-info">
+                        <h6 class="alert-heading">
+                            <i class="bi bi-lightbulb"></i> Image Tips
+                        </h6>
+                        <ul class="feature-list mb-0">
+                            <li><i class="bi bi-check"></i> Show different angles of your campground</li>
+                            <li><i class="bi bi-check"></i> Include photos of amenities and surroundings</li>
+                            <li><i class="bi bi-check"></i> Use natural lighting for best results</li>
+                            <li><i class="bi bi-check"></i> First image will be used as the main thumbnail</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Help Section -->
+                <div class="form-section">
+                    <h4 class="mb-4 text-warning">
+                        <i class="bi bi-question-circle"></i> Creating a Great Listing
+                    </h4>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="d-flex mb-3">
+                                <i class="bi bi-camera text-primary me-3 fs-4"></i>
+                                <div>
+                                    <h6 class="mb-1">Quality Images</h6>
+                                    <p class="text-muted small mb-0">Clear photos increase bookings by 40%</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex mb-3">
+                                <i class="bi bi-pencil text-success me-3 fs-4"></i>
+                                <div>
+                                    <h6 class="mb-1">Detailed Description</h6>
+                                    <p class="text-muted small mb-0">Help campers imagine their stay</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex mb-3">
+                                <i class="bi bi-geo-alt text-info me-3 fs-4"></i>
+                                <div>
+                                    <h6 class="mb-1">Accurate Location</h6>
+                                    <p class="text-muted small mb-0">Clear directions prevent confusion</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex mb-3">
+                                <i class="bi bi-currency-euro text-warning me-3 fs-4"></i>
+                                <div>
+                                    <h6 class="mb-1">Fair Pricing</h6>
+                                    <p class="text-muted small mb-0">Competitive rates attract more guests</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                    <a href="/campgrounds" class="btn btn-outline-secondary btn-lg me-md-2">
+                        <i class="bi bi-arrow-left"></i> Back to Campgrounds
+                    </a>
+                    <button type="submit" class="btn btn-success btn-lg px-5">
+                        <i class="bi bi-plus-circle-fill"></i> Create Campground
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function updateFileName(input) {
+        const fileNameSpan = document.getElementById('simpleFileName');
+        if (input.files.length > 0) {
+            const fileList = Array.from(input.files).slice(0, 3).map(f => f.name);
+            const remainingFiles = input.files.length - 3;
+            
+            let fileText = `${input.files.length} image(s) selected: ${fileList.join(', ')}`;
+            if (remainingFiles > 0) {
+                fileText += ` and ${remainingFiles} more...`;
+            }
+            
+            fileNameSpan.innerHTML = `
+                <div class="alert alert-success d-flex align-items-center">
+                    <i class="bi bi-check-circle-fill me-2"></i>
+                    <div>${fileText}</div>
+                </div>
+            `;
+        } else {
+            fileNameSpan.innerHTML = '';
+        }
+    }
+
+    // Drag and drop functionality
+    const fileUploadArea = document.querySelector('.file-upload-area');
+    const fileInput = document.getElementById('simpleFile');
+
+    fileUploadArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        fileUploadArea.style.background = '#e8f5e8';
+        fileUploadArea.style.borderColor = '#0d6efd';
+    });
+
+    fileUploadArea.addEventListener('dragleave', (e) => {
+        e.preventDefault();
+        fileUploadArea.style.background = '#f8fff9';
+        fileUploadArea.style.borderColor = '#198754';
+    });
+
+    fileUploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        fileUploadArea.style.background = '#f8fff9';
+        fileUploadArea.style.borderColor = '#198754';
+        
+        const files = e.dataTransfer.files;
+        fileInput.files = files;
+        updateFileName(fileInput);
+    });
+</script>

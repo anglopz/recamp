@@ -1,0 +1,208 @@
+<% layout('layout/boilerplate') %>
+
+<style>
+    .campgrounds-container {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+        padding: 2rem;
+        margin: 1rem 0;
+    }
+    .campground-card {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        overflow: hidden;
+    }
+    .campground-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 25px rgba(0,0,0,0.15);
+    }
+    .campground-image {
+        height: 220px;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+    .campground-card:hover .campground-image {
+        transform: scale(1.05);
+    }
+    .price-tag {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: linear-gradient(135deg, #28a745, #20c997);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 25px;
+        font-weight: bold;
+        box-shadow: 0 2px 10px rgba(40, 167, 69, 0.3);
+    }
+    .location-badge {
+        background: #e9ecef;
+        color: #6c757d;
+        padding: 0.3rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+    }
+    .text-truncate-3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        display: -webkit-box;
+        display: -moz-box;
+        display: box;
+        -moz-box-orient: vertical;
+        box-orient: vertical;
+        line-clamp: 3;
+    }
+    .map-header {
+        background: linear-gradient(135deg, #198754, #20c997);
+        color: white;
+        padding: 1.5rem 2rem;
+        border-radius: 12px 12px 0 0;
+        margin-bottom: 0;
+    }
+    .map-container {
+        border-radius: 0 0 12px 12px;
+        overflow: hidden;
+        box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+        margin-bottom: 2rem;
+    }
+    #map {
+        width: 100%;
+        height: 500px;
+    }
+    .stats-badge {
+        background: rgba(255, 255, 255, 0.2);
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.9rem;
+    }
+</style>
+
+<!-- Map Section -->
+<div class="map-container">
+    <div class="map-header d-flex justify-content-between align-items-center">
+        <div>
+            <h3 class="mb-1">
+                <i class="bi bi-map me-2"></i>Explore Campgrounds on Map
+            </h3>
+            <p class="mb-0 opacity-90">Click on clusters to zoom in and discover campgrounds</p>
+        </div>
+        <div class="stats-badge">
+            <i class="bi bi-geo-alt me-1"></i>
+            <span id="campgrounds-count"><%= campgrounds.length %></span> locations
+        </div>
+    </div>
+    <div id="map"></div>
+</div>
+
+<div class="campgrounds-container">
+    <!-- Header Section -->
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <div>
+            <h1 class="display-5 fw-bold text-primary mb-2">
+                <i class="bi bi-tree-fill"></i> All Campgrounds
+            </h1>
+            <p class="lead text-muted">Browse all available camping spots</p>
+        </div>
+        <a href="/campgrounds/new" class="btn btn-success btn-lg">
+            <i class="bi bi-plus-circle-fill"></i> Add New Campground
+        </a>
+    </div>
+
+    <!-- Campgrounds Grid -->
+    <div class="row g-4">
+        <% if (campgrounds.length === 0) { %>
+            <div class="col-12 text-center py-5">
+                <i class="bi bi-campground display-1 text-muted"></i>
+                <h3 class="mt-3 text-muted">No Campgrounds Yet</h3>
+                <p class="text-muted">Be the first to add a campground!</p>
+                <a href="/campgrounds/new" class="btn btn-primary btn-lg mt-3">
+                    <i class="bi bi-plus-circle-fill"></i> Create First Campground
+                </a>
+            </div>
+        <% } else { %>
+            <% for(let campground of campgrounds) { %>
+                <div class="col-lg-6 col-xl-4">
+                    <div class="campground-card h-100">
+                        <div class="position-relative">
+                            <% if (campground.images && campground.images.length> 0) { %>
+                                <img class="campground-image w-100" 
+                                     alt="<%= campground.title %>"
+                                     src="<%= campground.images[0].card || campground.images[0].url %>">
+                            <% } else { %>
+                                <img class="campground-image w-100" 
+                                     alt="No image available"
+                                     src="https://via.placeholder.com/400x220/6c757d/ffffff?text=No+Image">
+                            <% } %>
+                            
+                            <!-- Price Tag -->
+                            <div class="price-tag">
+                                <i class="bi bi-currency-euro"></i> <%= campground.price %>/night
+                            </div>
+                            
+                            <!-- Location Badge -->
+                            <div class="position-absolute bottom-0 start-0 m-3">
+                                <span class="location-badge">
+                                    <i class="bi bi-geo-alt"></i> <%= campground.location %>
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold text-dark mb-2">
+                                <%= campground.title %>
+                            </h5>
+                            <p class="card-text text-muted mb-3 text-truncate-3">
+                                <%= campground.description.length > 120 ? 
+                                    campground.description.substring(0, 120) + '...' : 
+                                    campground.description %>
+                            </p>
+                            
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">
+                                    <i class="bi bi-person-circle"></i> 
+                                    <%= campground.author.username %>
+                                </small>
+                                <a class="btn btn-outline-primary btn-sm" 
+                                   href="/campgrounds/<%= campground._id %>">
+                                    View Details <i class="bi bi-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+        <% } %>
+    </div>
+
+    <!-- Pagination -->
+    <% if (campgrounds.length > 0) { %>
+        <nav class="mt-5" aria-label="Campgrounds pagination">
+            <ul class="pagination justify-content-center">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1">Previous</a>
+                </li>
+                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#">Next</a>
+                </li>
+            </ul>
+        </nav>
+    <% } %>
+</div>
+
+<!-- Pasar datos al JavaScript -->
+<script id="map-config" type="application/json">
+    {
+        "mapToken": "<%-process.env.MAPBOX_TOKEN%>",
+        "campgrounds": <%- JSON.stringify(campgrounds) %>
+    }
+</script>
+
+<script src="/javascripts/clusterMap.js"></script>

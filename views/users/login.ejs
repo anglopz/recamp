@@ -1,0 +1,228 @@
+<% layout('layout/boilerplate') %>
+
+<style>
+    .login-container {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+        padding: 2rem;
+        margin: 1rem 0;
+        max-width: 450px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .login-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    .login-icon {
+        background: linear-gradient(135deg, #198754, #20c997);
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem;
+    }
+    .form-floating-custom {
+        position: relative;
+        margin-bottom: 1.5rem;
+    }
+    .form-floating-custom .form-control {
+        height: calc(3.5rem + 2px);
+        padding: 1rem 0.75rem;
+        border: 2px solid #e9ecef;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+    }
+    .form-floating-custom .form-control:focus {
+        border-color: #198754;
+        box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.25);
+    }
+    .form-floating-custom label {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        padding: 1rem 0.75rem;
+        pointer-events: none;
+        border: 1px solid transparent;
+        transform-origin: 0 0;
+        transition: all 0.3s ease;
+        color: #6c757d;
+        font-weight: 500;
+    }
+    .form-floating-custom .form-control:focus ~ label,
+    .form-floating-custom .form-control:not(:placeholder-shown) ~ label {
+        transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+        background: white;
+        padding: 0 0.5rem;
+        color: #198754;
+        font-weight: 600;
+    }
+    .login-btn {
+        background: linear-gradient(135deg, #198754, #20c997);
+        border: none;
+        padding: 0.75rem 2rem;
+        font-weight: 600;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        width: 100%;
+    }
+    .login-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(25, 135, 84, 0.4);
+    }
+    .login-links {
+        text-align: center;
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid #e9ecef;
+    }
+    .feature-card {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-left: 4px solid #198754;
+    }
+</style>
+
+<div class="login-container">
+    <!-- Header -->
+    <div class="login-header">
+        <div class="login-icon">
+            <i class="bi bi-person-check-fill text-white fs-2"></i>
+        </div>
+        <h1 class="h3 fw-bold text-success mb-2">Welcome Back</h1>
+        <p class="text-muted">Sign in to your ReCamp account</p>
+    </div>
+
+<form action="/login" method="POST" class="validated-form" novalidate>
+    <!-- Username Field -->
+    <div class="mb-4">
+        <label class="form-label fw-bold" for="username">
+            <i class="bi bi-person me-2"></i>Username
+        </label>
+        <input class="form-control form-control-lg" type="text" id="username" name="username" 
+               placeholder="Enter your username" required autofocus>
+        <div class="valid-feedback">
+            <i class="bi bi-check-circle-fill"></i> Looks good!
+        </div>
+    </div>
+
+    <!-- Password Field -->
+    <div class="mb-4">
+        <label class="form-label fw-bold" for="password">
+            <i class="bi bi-lock me-2"></i>Password
+        </label>
+        <input class="form-control form-control-lg" type="password" id="password" name="password" 
+               placeholder="Enter your password" required>
+        <div class="valid-feedback">
+            <i class="bi bi-check-circle-fill"></i> Perfect!
+        </div>
+    </div>
+        <!-- Remember Me & Forgot Password -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="rememberMe" name="rememberMe">
+                <label class="form-check-label text-muted small" for="rememberMe">
+                    Remember me
+                </label>
+            </div>
+            <a href="/forgot-password" class="text-success small text-decoration-none">
+                <i class="bi bi-key"></i> Forgot password?
+            </a>
+        </div>
+
+        <!-- Login Button -->
+        <button type="submit" class="btn login-btn btn-lg mb-4">
+            <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+        </button>
+
+        <!-- Divider -->
+        <div class="position-relative text-center mb-4">
+            <hr>
+            <span class="position-absolute top-50 start-50 translate-middle bg-white px-3 text-muted small">
+                or
+            </span>
+        </div>
+
+        <!-- Demo Account Info (opcional) -->
+        <div class="feature-card">
+            <div class="d-flex align-items-center">
+                <i class="bi bi-info-circle text-success me-3 fs-5"></i>
+                <div>
+                    <h6 class="mb-1 fw-bold">Demo Account</h6>
+                    <p class="small text-muted mb-0">Username: <code>demo</code> | Password: <code>demo</code></p>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <!-- Sign Up Link -->
+    <div class="login-links">
+        <p class="text-muted mb-3">Don't have an account?</p>
+        <a href="/register" class="btn btn-outline-success">
+            <i class="bi bi-person-plus me-2"></i>Create Account
+        </a>
+    </div>
+
+    <!-- Features List -->
+    <div class="mt-4">
+        <div class="row g-2">
+            <div class="col-12">
+                <div class="d-flex align-items-center text-muted small">
+                    <i class="bi bi-check-circle text-success me-2"></i>
+                    <span>Access all campgrounds</span>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="d-flex align-items-center text-muted small">
+                    <i class="bi bi-check-circle text-success me-2"></i>
+                    <span>Create and manage your listings</span>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="d-flex align-items-center text-muted small">
+                    <i class="bi bi-check-circle text-success me-2"></i>
+                    <span>Leave reviews and ratings</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Auto-focus on username field
+        document.getElementById('username').focus();
+        
+        // Add floating label functionality
+        const inputs = document.querySelectorAll('.form-floating-custom .form-control');
+        
+        inputs.forEach(input => {
+            // Check on load if there's already content
+            if (input.value) {
+                input.parentElement.classList.add('has-value');
+            }
+            
+            // Check on input
+            input.addEventListener('input', function() {
+                if (this.value) {
+                    this.parentElement.classList.add('has-value');
+                } else {
+                    this.parentElement.classList.remove('has-value');
+                }
+            });
+            
+            // Check on blur
+            input.addEventListener('blur', function() {
+                if (this.value) {
+                    this.parentElement.classList.add('has-value');
+                }
+            });
+        });
+    });
+</script>

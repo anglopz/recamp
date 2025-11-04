@@ -1,0 +1,6 @@
+/* public/stylesheets/main.css - CORRECTO */
+@import url('./pages/map.css');
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+}

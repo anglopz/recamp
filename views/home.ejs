@@ -1,0 +1,258 @@
+<% layout('layout/boilerplate') %>
+
+    <style>
+        .hero-section {
+            background: linear-gradient(135deg, rgba(13, 110, 253, 0.9), rgba(25, 135, 84, 0.8)),
+                url('https://images.unsplash.com/photo-1508873696983-2dfd5898f08b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+            padding: 8rem 0;
+            text-align: center;
+            border-radius: 0 0 20px 20px;
+            margin-bottom: 3rem;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            gap: 1rem;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            height: 100%;
+            border: 1px solid #e9ecef;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #198754, #20c997);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+        }
+
+        .stats-section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 3rem 2rem;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #198754;
+            display: block;
+        }
+
+        .campground-preview {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .campground-preview:hover {
+            transform: scale(1.05);
+        }
+    </style>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <h1 class="hero-title">
+                <i class="bi bi-tree-fill me-3"></i>Welcome to ReCamp
+            </h1>
+            <p class="hero-subtitle">
+                Discover amazing campgrounds, share your favorite spots, and connect with fellow outdoor enthusiasts.
+                Your next adventure starts here.
+            </p>
+            <div class="hero-buttons d-flex justify-content-center flex-wrap">
+                <a href="/campgrounds" class="btn btn-light btn-lg fw-bold px-4 py-3 me-3">
+                    <i class="bi bi-map me-2"></i>Explore Campgrounds
+                </a>
+                <a href="/campgrounds/new" class="btn btn-outline-light btn-lg fw-bold px-4 py-3">
+                    <i class="bi bi-plus-circle me-2"></i>Add Your Campground
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-lg-8 mx-auto">
+                <h2 class="display-5 fw-bold text-primary mb-3">Why Choose ReCamp?</h2>
+                <p class="lead text-muted">The ultimate platform for campers and outdoor lovers</p>
+            </div>
+        </div>
+
+        <div class="row g-4 mb-5">
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="bi bi-geo-alt text-white fs-3"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Discover Amazing Spots</h4>
+                    <p class="text-muted">
+                        Find hidden gems and popular campgrounds with detailed descriptions,
+                        photos, and real reviews from fellow campers.
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="bi bi-share text-white fs-3"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Share Your Experience</h4>
+                    <p class="text-muted">
+                        Add your favorite campgrounds, share photos, and help others
+                        discover the perfect outdoor getaway.
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="bi bi-people text-white fs-3"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Join the Community</h4>
+                    <p class="text-muted">
+                        Connect with like-minded outdoor enthusiasts, share tips,
+                        and get inspired for your next camping adventure.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="stats-section text-center mb-5">
+            <div class="row g-4">
+                <div class="col-md-3">
+                    <span class="stat-number" id="campgroundsCount">
+                        <%= stats.campgrounds %>
+                    </span>
+                    <h6 class="text-muted">Campgrounds</h6>
+                </div>
+                <div class="col-md-3">
+                    <span class="stat-number" id="usersCount">
+                        <%= stats.users %>
+                    </span>
+                    <h6 class="text-muted">Happy Campers</h6>
+                </div>
+                <div class="col-md-3">
+                    <span class="stat-number" id="reviewsCount">
+                        <%= stats.reviews %>
+                    </span>
+                    <h6 class="text-muted">Reviews</h6>
+                </div>
+                <div class="col-md-3">
+                    <span class="stat-number" id="countriesCount">24</span>
+                    <h6 class="text-muted">Countries</h6>
+                </div>
+            </div>
+        </div>
+
+        <!-- Featured Campgrounds Preview -->
+        <% if (featuredCampgrounds && featuredCampgrounds.length> 0) { %>
+            <div class="row mb-5">
+                <div class="col-12 text-center mb-4">
+                    <h3 class="fw-bold text-dark">Featured Campgrounds</h3>
+                    <p class="text-muted">Check out some of our most popular spots</p>
+                </div>
+                <% featuredCampgrounds.forEach(campground=> { %>
+                    <div class="col-md-4 mb-4">
+                        <div class="campground-preview">
+                            <img src="<%= campground.images[0].url %>" alt="<%= campground.title %>"
+                                class="img-fluid w-100" style="height: 250px; object-fit: cover;">
+                            <div class="p-3">
+                                <h5 class="fw-bold">
+                                    <%= campground.title %>
+                                </h5>
+                                <p class="text-muted mb-0">
+                                    <%= campground.location %>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <% }) %>
+            </div>
+            <% } %>
+
+                <!-- CTA Section -->
+                <div class="text-center py-5">
+                    <h3 class="fw-bold mb-3">Ready to Start Your Adventure?</h3>
+                    <p class="text-muted mb-4">Join thousands of campers who trust ReCamp for their outdoor adventures
+                    </p>
+                    <a href="/register" class="btn btn-primary btn-lg px-5 py-3">
+                        <i class="bi bi-person-plus-fill me-2"></i>Join Now - It's Free!
+                    </a>
+                </div>
+    </div>
+
+    <script>
+        // Counter animation for stats
+        function animateCounter(element, target, duration = 2000) {
+            let start = 0;
+            const increment = target / (duration / 16);
+            const timer = setInterval(() => {
+                start += increment;
+                if (start >= target) {
+                    element.textContent = target;
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(start);
+                }
+            }, 16);
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+        // ✅ Usar datos del servidor
+        const campgroundsCount = parseInt(document.getElementById('campgroundsCount').textContent);
+        const usersCount = parseInt(document.getElementById('usersCount').textContent);
+        const reviewsCount = parseInt(document.getElementById('reviewsCount').textContent);
+        const countriesCount = parseInt(document.getElementById('countriesCount').textContent);
+        
+        // Reset a 0 para la animación
+        document.getElementById('campgroundsCount').textContent = '0';
+        document.getElementById('usersCount').textContent = '0';
+        document.getElementById('reviewsCount').textContent = '0';
+        document.getElementById('countriesCount').textContent = '0';
+        
+        // Animar hasta los números reales
+        animateCounter(document.getElementById('campgroundsCount'), campgroundsCount);
+        animateCounter(document.getElementById('usersCount'), usersCount);
+        animateCounter(document.getElementById('reviewsCount'), reviewsCount);
+        animateCounter(document.getElementById('countriesCount'), countriesCount);
+    });
+    </script>
