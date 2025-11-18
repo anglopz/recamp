@@ -168,28 +168,23 @@
                         <div class="mb-4">
                             <label class="form-label fw-bold">Add New Images</label>
 
-                            <!-- Desktop version -->
-                            <div class="file-upload-area d-none d-md-block"
-                                onclick="document.getElementById('simpleFile').click()">
+                            <!-- Área de drag & drop para desktop -->
+                            <div class="file-upload-area mb-3 d-none d-md-block" id="dragDropArea">
                                 <i class="bi bi-cloud-arrow-up display-4 text-info mb-3"></i>
-                                <h5>Click to upload new images</h5>
-                                <p class="text-muted">Select multiple images to add to your campground</p>
-                                <span id="simpleFileName" class="badge bg-info fs-6 mt-2"></span>
+                                <h5>Drag & Drop New Images Here</h5>
+                                <p class="text-muted">Or click the button below to select files</p>
                             </div>
 
-                            <!-- Mobile version -->
-                            <div class="d-md-none">
-                                <button type="button" class="btn btn-info btn-lg w-100 py-3"
-                                    onclick="document.getElementById('simpleFile').click()">
-                                    <i class="bi bi-cloud-arrow-up-fill me-2"></i>Add New Images
+                            <!-- Input file visible -->
+                            <div class="text-center">
+                                <input type="file" id="simpleFile" class="form-control d-md-none" accept="image/*" name="images" multiple>
+                                <button type="button" class="btn btn-info btn-lg d-none d-md-inline-block" 
+                                        onclick="document.getElementById('simpleFile').click()">
+                                    <i class="bi bi-folder2-open me-2"></i>Select New Images
                                 </button>
-                                <p class="text-muted text-center mt-2 small">
-                                    <i class="bi bi-info-circle"></i> You can select multiple images
-                                </p>
                             </div>
 
-                            <input type="file" id="simpleFile" class="d-none" accept="image/*" name="images" multiple
-                                onchange="updateFileName(this)" capture="environment">
+                            <div id="simpleFileName" class="mt-2 text-center"></div>
                         </div>
 
                         <!-- Current Images -->
@@ -224,10 +219,10 @@
                                         <% }) %>
                                 </div>
                                 <% } else { %>
-                                    <div class="alert alert-info text-center py-4">
-                                        <i class="bi bi-image display-4"></i>
+                                    <div class="alert alert-warning text-center py-4">
+                                        <i class="bi bi-exclamation-triangle display-4"></i>
                                         <h5 class="mt-3">No images available</h5>
-                                        <p class="mb-0">Upload some images to make your campground stand out!</p>
+                                        <p class="mb-0">You must upload at least one image to update this campground</p>
                                     </div>
                                     <% } %>
                         </div>
@@ -248,47 +243,74 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const fileInput = document.getElementById('simpleFile');
-            const desktopUploadArea = document.getElementById('desktopUploadArea');
-            const mobileUploadBtn = document.getElementById('mobileUploadBtn');
+            const dragDropArea = document.getElementById('dragDropArea');
+            const fileNameSpan = document.getElementById('simpleFileName');
 
-            // Función para manejar la selección de archivos
-            function handleFileSelection() {
-                fileInput.click();
-            }
-
-            // Función para actualizar el nombre del archivo
+            // Función para actualizar la visualización de archivos
             function updateFileName() {
-                const fileNameSpan = document.getElementById('simpleFileName');
                 if (fileInput.files.length > 0) {
                     const fileNames = Array.from(fileInput.files).map(f => f.name).join(', ');
-                    fileNameSpan.textContent = `${fileInput.files.length} image(s) selected: ${fileNames}`;
-                    fileNameSpan.className = 'badge bg-success fs-6 mt-2';
-
-                    // Feedback táctil para móviles
-                    if ('vibrate' in navigator) {
-                        navigator.vibrate(100);
-                    }
+                    fileNameSpan.innerHTML = `
+                        <div class="badge bg-success fs-6 p-2">
+                            <i class="bi bi-check-circle-fill me-1"></i>
+                            ${fileInput.files.length} image(s) selected
+                        </div>
+                    `;
                 } else {
-                    fileNameSpan.textContent = '';
+                    fileNameSpan.innerHTML = '';
                 }
             }
 
-            // Event listeners
-            if (desktopUploadArea) {
-                desktopUploadArea.addEventListener('click', handleFileSelection);
-            }
-
-            if (mobileUploadBtn) {
-                mobileUploadBtn.addEventListener('click', handleFileSelection);
-            }
-
+            // Event listener básico para el input file
             fileInput.addEventListener('change', updateFileName);
 
-            // Add hover effects to delete checkboxes
+            // Drag & drop solo para desktop
+            if (dragDropArea) {
+                // Prevenir comportamientos por defecto
+                ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                    dragDropArea.addEventListener(eventName, preventDefaults, false);
+                });
+
+                function preventDefaults(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+
+                // Efectos visuales durante drag
+                ['dragenter', 'dragover'].forEach(eventName => {
+                    dragDropArea.addEventListener(eventName, highlight, false);
+                });
+
+                ['dragleave', 'drop'].forEach(eventName => {
+                    dragDropArea.addEventListener(eventName, unhighlight, false);
+                });
+
+                function highlight() {
+                    dragDropArea.style.background = '#e6f7ff';
+                    dragDropArea.style.borderColor = '#0d6efd';
+                }
+
+                function unhighlight() {
+                    dragDropArea.style.background = '#f8fdff';
+                    dragDropArea.style.borderColor = '#0dcaf0';
+                }
+
+                // Manejar drop de archivos
+                dragDropArea.addEventListener('drop', handleDrop, false);
+
+                function handleDrop(e) {
+                    const dt = e.dataTransfer;
+                    const files = dt.files;
+                    fileInput.files = files;
+                    updateFileName();
+                }
+            }
+
+            // Efectos para checkboxes de eliminar
             document.querySelectorAll('.delete-checkbox').forEach(checkbox => {
-                checkbox.addEventListener('change', function () {
+                checkbox.addEventListener('change', function() {
                     const card = this.closest('.card');
                     if (this.checked) {
                         card.style.opacity = '0.6';
