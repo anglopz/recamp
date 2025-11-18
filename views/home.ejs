@@ -183,31 +183,38 @@
             </div>
         </div>
 
-        <!-- Featured Campgrounds Preview -->
-        <% if (featuredCampgrounds && featuredCampgrounds.length> 0) { %>
-            <div class="row mb-5">
-                <div class="col-12 text-center mb-4">
-                    <h3 class="fw-bold text-dark">Featured Campgrounds</h3>
-                    <p class="text-muted">Check out some of our most popular spots</p>
-                </div>
-                <% featuredCampgrounds.forEach(campground=> { %>
-                    <div class="col-md-4 mb-4">
-                        <div class="campground-preview">
-                            <img src="<%= campground.images[0].url %>" alt="<%= campground.title %>"
-                                class="img-fluid w-100" style="height: 250px; object-fit: cover;">
-                            <div class="p-3">
-                                <h5 class="fw-bold">
-                                    <%= campground.title %>
-                                </h5>
-                                <p class="text-muted mb-0">
-                                    <%= campground.location %>
-                                </p>
-                            </div>
-                        </div>
+<!-- Featured Campgrounds Preview -->
+<% if (featuredCampgrounds && featuredCampgrounds.length> 0) { %>
+    <div class="row mb-5">
+        <div class="col-12 text-center mb-4">
+            <h3 class="fw-bold text-dark">Featured Campgrounds</h3>
+            <p class="text-muted">Check out some of our most popular spots</p>
+        </div>
+        <% featuredCampgrounds.forEach(campground=> { %>
+            <div class="col-md-4 mb-4">
+                <div class="campground-preview">
+                    <% 
+                    let imageUrl = 'https://images.unsplash.com/photo-1508873696983-2dfd5898f08b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80';
+                    if (campground.images && campground.images.length > 0 && campground.images[0].url) {
+                        imageUrl = campground.images[0].url;
+                    }
+                    %>
+                    <img src="<%= imageUrl %>" 
+                         alt="<%= campground.title %>"
+                         class="img-fluid w-100" style="height: 250px; object-fit: cover;">
+                    <div class="p-3">
+                        <h5 class="fw-bold">
+                            <%= campground.title %>
+                        </h5>
+                        <p class="text-muted mb-0">
+                            <%= campground.location %>
+                        </p>
                     </div>
-                    <% }) %>
+                </div>
             </div>
-            <% } %>
+        <% }) %>
+    </div>
+<% } %>
 
                 <!-- CTA Section -->
                 <div class="text-center py-5">
