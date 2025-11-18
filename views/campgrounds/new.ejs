@@ -277,54 +277,78 @@
     </div>
 
     <script>
-        // Solo la función básica para mostrar nombres de archivos
-        function updateFileName(input) {
-            const fileNameSpan = document.getElementById('simpleFileName');
-            if (input.files.length > 0) {
-                const fileList = Array.from(input.files).slice(0, 3).map(f => f.name);
-                const remainingFiles = input.files.length - 3;
+        document.addEventListener('DOMContentLoaded', function () {
+            const fileInput = document.getElementById('simpleFile');
+            const desktopUploadArea = document.getElementById('desktopUploadArea');
+            const mobileUploadBtn = document.getElementById('mobileUploadBtn');
 
-                let fileText = `${input.files.length} image(s) selected: ${fileList.join(', ')}`;
-                if (remainingFiles > 0) {
-                    fileText += ` and ${remainingFiles} more...`;
-                }
-
-                fileNameSpan.innerHTML = `
-                <div class="alert alert-success d-flex align-items-center">
-                    <i class="bi bi-check-circle-fill me-2"></i>
-                    <div>${fileText}</div>
-                </div>
-            `;
-            } else {
-                fileNameSpan.innerHTML = '';
+            // Función para manejar la selección de archivos
+            function handleFileSelection() {
+                fileInput.click();
             }
-        }
 
-        // Drag and drop functionality (solo desktop) - mantenemos esto porque SÍ funciona
-        const fileUploadArea = document.querySelector('.file-upload-area');
-        const fileInput = document.getElementById('simpleFile');
+            // Función para actualizar el nombre del archivo
+            function updateFileName() {
+                const fileNameSpan = document.getElementById('simpleFileName');
+                if (fileInput.files.length > 0) {
+                    const fileList = Array.from(fileInput.files).slice(0, 3).map(f => f.name);
+                    const remainingFiles = fileInput.files.length - 3;
 
-        if (fileUploadArea && fileInput) {
-            fileUploadArea.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                fileUploadArea.style.background = '#e8f5e8';
-                fileUploadArea.style.borderColor = '#0d6efd';
-            });
+                    let fileText = `${fileInput.files.length} image(s) selected: ${fileList.join(', ')}`;
+                    if (remainingFiles > 0) {
+                        fileText += ` and ${remainingFiles} more...`;
+                    }
 
-            fileUploadArea.addEventListener('dragleave', (e) => {
-                e.preventDefault();
-                fileUploadArea.style.background = '#f8fff9';
-                fileUploadArea.style.borderColor = '#198754';
-            });
+                    fileNameSpan.innerHTML = `
+                    <div class="alert alert-success d-flex align-items-center">
+                        <i class="bi bi-check-circle-fill me-2"></i>
+                        <div>${fileText}</div>
+                    </div>
+                `;
 
-            fileUploadArea.addEventListener('drop', (e) => {
-                e.preventDefault();
-                fileUploadArea.style.background = '#f8fff9';
-                fileUploadArea.style.borderColor = '#198754';
+                    // Feedback táctil para móviles
+                    if ('vibrate' in navigator) {
+                        navigator.vibrate(100);
+                    }
+                } else {
+                    fileNameSpan.innerHTML = '';
+                }
+            }
 
-                const files = e.dataTransfer.files;
-                fileInput.files = files;
-                updateFileName(fileInput);
-            });
-        }
+            // Event listeners
+            if (desktopUploadArea) {
+                desktopUploadArea.addEventListener('click', handleFileSelection);
+            }
+
+            if (mobileUploadBtn) {
+                mobileUploadBtn.addEventListener('click', handleFileSelection);
+            }
+
+            fileInput.addEventListener('change', updateFileName);
+
+            // Drag and drop functionality (solo desktop)
+            if (desktopUploadArea) {
+                desktopUploadArea.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    desktopUploadArea.style.background = '#e8f5e8';
+                    desktopUploadArea.style.borderColor = '#0d6efd';
+                });
+
+                desktopUploadArea.addEventListener('dragleave', (e) => {
+                    e.preventDefault();
+                    desktopUploadArea.style.background = '#f8fff9';
+                    desktopUploadArea.style.borderColor = '#198754';
+                });
+
+                desktopUploadArea.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    desktopUploadArea.style.background = '#f8fff9';
+                    desktopUploadArea.style.borderColor = '#198754';
+
+                    const files = e.dataTransfer.files;
+                    fileInput.files = files;
+                    updateFileName();
+                });
+            }
+        });
     </script>
