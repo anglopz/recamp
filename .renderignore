@@ -1,0 +1,40 @@
+# Files and directories to ignore during Render deployment
+
+# Development files
+.git/
+.github/
+docs/PHASE*.md
+docs/test_promt_template.md
+docs/promt_templates/
+docs/project_context.md
+docs/project_setup.cursor.md
+
+# Test files (not needed in production)
+src/backend/src/__tests__/
+src/frontend/__tests__/
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
+
+# Development dependencies
+.editorconfig
+.prettierrc.json
+.prettierignore
+.eslintrc.json
+
+# Docker files (using native Node)
+docker-compose*.yml
+infra/docker/
+Dockerfile*
+
+# Scripts (not needed in production)
+scripts/
+
+# IDE
+.vscode/
+.idea/
+*.code-workspace
+
+# OS
+.DS_Store

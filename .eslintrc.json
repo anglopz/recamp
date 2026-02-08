@@ -62,16 +62,6 @@
     "node_modules",
     "*.config.js",
     "coverage",
-    "utils/*.js",
-    "controllers/*.js",
-    "routes/*.js",
-    "models/*.js",
-    "middleware.js",
-    "schemas.js",
-    "app.js",
-    "seeds/**",
-    "cloudinary/**",
-    "public/**",
-    "views/**"
+    "archive/**"
   ]
 }

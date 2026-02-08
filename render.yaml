@@ -9,7 +9,7 @@ services:
     region: oregon
     plan: starter
     branch: main
-    buildCommand: npm ci && npm run build:backend
+    buildCommand: npm ci && npm run build:backend && ls -la src/backend/dist/index.js
     startCommand: npm run start:backend
     healthCheckPath: /health
     envVars:

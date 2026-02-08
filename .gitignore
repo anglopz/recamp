@@ -56,6 +56,9 @@ Thumbs.db
 .vercel
 .turbo
 
+# Archive (legacy code - optional to include in repo)
+# archive/
+
 # Internal documentation (not for remote repo)
 docs/test_promt_template.md
 docs/promt_templates/
