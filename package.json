@@ -31,7 +31,8 @@
     "type-check": "tsc --noEmit",
     "type-check:backend": "cd src/backend && tsc --noEmit",
     "type-check:frontend": "cd src/frontend && tsc --noEmit",
-    "prepare": "husky install || true"
+    "prepare": "husky install || true",
+    "postinstall": "npm run build:backend"
   },
   "keywords": [
     "campground",
